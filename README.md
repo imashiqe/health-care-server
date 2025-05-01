@@ -76,5 +76,5 @@ This backend supports a single-page frontend application with:
 For questions or suggestions, feel free to contact the maintainer:
 
 **Author:** [@imashiqe](https://github.com/imashiqe)  
-**Project:** [PH HealthCare Server](https://github.com/imashiqe/health-care-server)
+**Project:** [ HealthCare Server](https://github.com/imashiqe/health-care-server)
 
