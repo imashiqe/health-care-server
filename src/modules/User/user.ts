@@ -7,3 +7,5 @@ router.get("/", (req: Request, res: Response) => {
     message: "Route is Working Perfectly!",
   });
 });
+
+export const userRoutes = router;
