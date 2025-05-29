@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { userRoutes } from "./modules/User/user";
+import { userRoutes } from "./modules/User/user.routes";
 
 const app: Application = express();
 
