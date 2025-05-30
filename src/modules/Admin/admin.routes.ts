@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import express, { Request, Response } from "express";
 import { adminController } from "./admin.controller";
 
