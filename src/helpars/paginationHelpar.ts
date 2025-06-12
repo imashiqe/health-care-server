@@ -1,9 +1,11 @@
-const calculatePagination = (options: {
+type Ioptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
   sortOrder?: string;
-}) => {
+};
+
+const calculatePagination = (options: Ioptions) => {
   const page: number = Number(options.page) || 1;
   const limit: number = Number(options.limit) || 10;
   const skip: number = (Number(page) - 1) * limit;
