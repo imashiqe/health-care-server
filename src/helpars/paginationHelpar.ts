@@ -1,11 +1,19 @@
-type Ioptions = {
+type IOptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
   sortOrder?: string;
 };
 
-const calculatePagination = (options: Ioptions) => {
+type IOptionsResult = {
+  page: number;
+  limit: number;
+  skip: number;
+  sortBy: string;
+  sortOrder: string;
+};
+
+const calculatePagination = (options: IOptions) => {
   const page: number = Number(options.page) || 1;
   const limit: number = Number(options.limit) || 10;
   const skip: number = (Number(page) - 1) * limit;
