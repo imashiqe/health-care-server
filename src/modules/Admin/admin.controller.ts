@@ -23,6 +23,25 @@ const getAllFromDB = async (req: Request, res: Response) => {
   }
 };
 
+const getByIdFromDB = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await adminService.getByIdFromDB(id);
+    res.status(200).json({
+      success: true,
+      message: "Admin fetched successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch admin",
+      error: err instanceof Error ? err.message : "Unknown error",
+    });
+  }
+};
+
 export const adminController = {
   getAllFromDB,
+  getByIdFromDB,
 };
