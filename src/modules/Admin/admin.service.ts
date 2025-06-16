@@ -70,6 +70,13 @@ const getByIdFromDB = async (id: string) => {
 // This function updates an admin in the database.
 
 const updateIntoDB = async (id: string, data: Partial<Admin>) => {
+  const isExits = await prisma.admin.findUnique({
+    where: { id },
+  });
+  if (!isExits) {
+    throw new Error("Admin not found");
+  }
+
   const result = await prisma.admin.update({
     where: { id },
     data,
@@ -77,10 +84,29 @@ const updateIntoDB = async (id: string, data: Partial<Admin>) => {
   return result;
 };
 
+const deleteFromDB = async (id: string) => {
+  const result = await prisma.$transaction(async (transactionClient) => {
+    const adminDeletedData = await transactionClient.admin.delete({
+      where: { id },
+    });
+
+    const userDeletedData = await transactionClient.user.delete({
+      where: {
+        email: adminDeletedData.email,
+      },
+    });
+
+    return adminDeletedData;
+  });
+
+  return result;
+};
+
 export const adminService = {
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
+  deleteFromDB,
 };
 
 /*
