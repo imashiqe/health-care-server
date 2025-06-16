@@ -41,7 +41,28 @@ const getByIdFromDB = async (req: Request, res: Response) => {
   }
 };
 
+const updateIntoDB = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  console.log("id:", id);
+  console.log("body:", req.body);
+  try {
+    const result = await adminService.updateIntoDB(id, req.body);
+    res.status(200).json({
+      success: true,
+      message: "Admin updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update admin",
+      error: err instanceof Error ? err.message : "Unknown error",
+    });
+  }
+};
+
 export const adminController = {
   getAllFromDB,
   getByIdFromDB,
+  updateIntoDB,
 };
