@@ -78,9 +78,27 @@ const deleteFromDB = async (req: Request, res: Response) => {
   }
 };
 
+const softDeleteFromDB = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await adminService.softDeleteFromDB(id);
+    res.status(200).json({
+      success: true,
+      message: "Admin soft deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to soft delete admin",
+      error: err instanceof Error ? err.message : "Unknown error",
+    });
+  }
+};
+
 export const adminController = {
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
   deleteFromDB,
+  softDeleteFromDB,
 };

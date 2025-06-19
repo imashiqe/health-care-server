@@ -43,14 +43,15 @@ model Admin{
 }
 
 
-enum UserRole{
-   SUPER_ADMIN
-   ADMIN
-   DOCTOR
-    PATIENT
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  DOCTOR
+  PATIENT
 }
 
-enum UserStatus{
-   ACTIVE
-   BLOCKED
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
 }
