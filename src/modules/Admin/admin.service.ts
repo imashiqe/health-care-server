@@ -28,6 +28,11 @@ const getAllFromDB = async (params: any, options: any) => {
       })),
     });
   }
+
+  andConditions.push({
+    isDeleted: false,
+  });
+
   //   console.dir(andConditions, { depth: "infinity" });
   const whereConditions: Prisma.AdminWhereInput = { AND: andConditions };
   const result = await prisma.admin.findMany({
@@ -54,6 +59,7 @@ const getAllFromDB = async (params: any, options: any) => {
       limit,
       total,
     },
+
     data: result,
   };
 };

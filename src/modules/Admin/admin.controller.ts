@@ -30,6 +30,7 @@ const getByIdFromDB = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Admin fetched successfully",
+
       data: result,
     });
   } catch (err) {
