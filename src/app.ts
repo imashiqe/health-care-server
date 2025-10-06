@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { userRoutes } from "./modules/User/user.routes";
 import { AdminRoutes } from "./modules/Admin/admin.routes";
@@ -17,5 +17,11 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", router);
-
+app.use((err, req: Request, res: Response, next: NextFunction) => {
+  res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+    success: false,
+    message: "Something went wrong",
+    error: err.message,
+  });
+});
 export default app;

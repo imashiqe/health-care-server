@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { adminService } from "./admin.service";
 import pick from "../shared/pick";
 import { adminFilterableFields } from "./admin.constant";
@@ -45,7 +45,11 @@ const getByIdFromDB = async (req: Request, res: Response) => {
   }
 };
 
-const updateIntoDB = async (req: Request, res: Response) => {
+const updateIntoDB = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   console.log("id:", id);
   console.log("body:", req.body);
@@ -58,11 +62,12 @@ const updateIntoDB = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to update admin",
-      error: err instanceof Error ? err.message : "Unknown error",
-    });
+    next(err);
+    // res.status(500).json({
+    //   success: false,
+    //   message: "Failed to update admin",
+    //   error: err instanceof Error ? err.message : "Unknown error",
+    // });
   }
 };
 
