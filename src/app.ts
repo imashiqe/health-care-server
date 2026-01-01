@@ -18,7 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", router);
-app.use((err, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(status.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: "Something went wrong",
