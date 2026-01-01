@@ -4,6 +4,7 @@ import cors from "cors";
 // import { AdminRoutes } from "./modules/Admin/admin.routes";
 import router from "./app/routes";
 import status from "http-status";
+import globalErrorHandler from "./app/routes/middleWares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -18,11 +19,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1", router);
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(status.INTERNAL_SERVER_ERROR).json({
-    success: false,
-    message: "Something went wrong",
-    error: err.message,
-  });
-});
+app.use(globalErrorHandler);
 export default app;
