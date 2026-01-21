@@ -1,4 +1,3 @@
-import { AnyZodObject } from "./../../../node_modules/zod/src/v3/types";
 import express, { NextFunction, Request, Response } from "express";
 import { adminController } from "./admin.controller";
 import z from "zod";
@@ -11,10 +10,12 @@ const update = z.object({
     contactNumber: z.string().optional(),
   }),
 });
-const validateRequest = (schema: AnyZodObject) => {
+const validateRequest = (schema: z.ZodObject<any>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await schema.parseAsync(req.body);
+      await schema.parseAsync({
+        body: req.body,
+      });
       next();
     } catch (error) {
       next(error);
