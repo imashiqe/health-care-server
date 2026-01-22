@@ -13,6 +13,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.15.19",
     "install": "^0.13.0",
     "prisma": "^4.16.2",
