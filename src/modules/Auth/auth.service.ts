@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 import prisma from "../shared/prisma";
 import { jwtHelpers } from "../../helpars/jwtHelpers";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { is } from "zod/v4/locales";
 
 const loginUser = async (payload: { email: string; password: string }) => {
@@ -46,7 +46,7 @@ const loginUser = async (payload: { email: string; password: string }) => {
 const refreshToken = async (token: string) => {
   let decodedData;
   try {
-    decodedData = jwt.verify(token, "abcdefgh");
+    decodedData = jwtHelpers.verifyToken(token, "abcdefgh");
   } catch (error) {
     throw new Error("You are not authorized person");
   }
