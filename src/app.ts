@@ -1,16 +1,16 @@
 import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
-// import { userRoutes } from "./modules/User/user.routes";
-// import { AdminRoutes } from "./modules/Admin/admin.routes";
 import router from "./app/routes";
 import status from "http-status";
 import globalErrorHandler from "./app/routes/middleWares/globalErrorHandler";
 import { error } from "console";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
 app.use(cors());
+app.use(cookieParser());
 // parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
