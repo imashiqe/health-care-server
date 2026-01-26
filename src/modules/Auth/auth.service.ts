@@ -3,10 +3,14 @@ import prisma from "../shared/prisma";
 import { jwtHelpers } from "../../helpars/jwtHelpers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { is } from "zod/v4/locales";
+import { UserStatus } from "@prisma/client";
 
 const loginUser = async (payload: { email: string; password: string }) => {
-  const userData = await prisma.user.findUniqueOrThrow({
-    where: { email: payload.email },
+  const userData = await prisma.user.findFirstOrThrow({
+    where: {
+      email: payload.email,
+      status: UserStatus.ACTIVE,
+    },
   });
   const isCorrectPassword: boolean = await bcrypt.compare(
     payload.password,
@@ -23,7 +27,7 @@ const loginUser = async (payload: { email: string; password: string }) => {
       email: userData.email,
       role: userData.role,
     },
-    "abcdefgh",
+    "abcdefg",
     "5m",
   );
 
@@ -51,8 +55,8 @@ const refreshToken = async (token: string) => {
     throw new Error("You are not authorized person");
   }
 
-  const userData = await prisma.user.findUniqueOrThrow({
-    where: { email: decodedData?.email },
+  const userData = await prisma.user.findFirstOrThrow({
+    where: { email: decodedData?.email, status: UserStatus.ACTIVE },
   });
 
   const accessToken = jwtHelpers.generateToken(
