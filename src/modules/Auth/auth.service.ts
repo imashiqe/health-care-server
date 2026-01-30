@@ -1,9 +1,10 @@
 import * as bcrypt from "bcrypt";
 import prisma from "../shared/prisma";
 import { jwtHelpers } from "../../helpars/jwtHelpers";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { is } from "zod/v4/locales";
 import { UserStatus } from "@prisma/client";
+import config from "../../config";
 
 const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findFirstOrThrow({
@@ -64,8 +65,8 @@ const refreshToken = async (token: string) => {
       email: userData.email,
       role: userData.role,
     },
-    "abcdefgh",
-    "5m",
+    config.jwt.jwt_secret as Secret,
+    config.jwt.expires_in as string,
   );
 
   return {
