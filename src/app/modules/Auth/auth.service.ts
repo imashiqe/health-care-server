@@ -7,6 +7,7 @@ import { is } from "zod/v4/locales";
 import { UserStatus } from "@prisma/client";
 import config from "../../../config";
 import { jwtHelpers } from "../../../helpars/jwtHelpers";
+import emailSender from "./emailSender";
 
 const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findFirstOrThrow({
@@ -131,6 +132,51 @@ const forgotPassword = async (payload: { email: string }) => {
   );
 
   console.log(resetPassToken);
+
+  const resetPassLink =
+    config.reset_pass_link + `?id=${userData.id}&token=${resetPassToken}`;
+  await emailSender(
+    userData.email,
+    `<div>
+   <h1>Dear User </h1>  
+  <p>Click the link below to reset your password: <a href="${resetPassLink}">Reset Password</a></p>
+    </div>`,
+  );
+
+  console.log(resetPassLink);
+  //  http://localhost:3000/reset-pass?email=jeem@gmail.com&token=resetPassToken
+};
+
+const resetPassword = async (
+  token: string,
+  payload: { id: string; password: string },
+) => {
+  console.log({ token, payload });
+  const userData = await prisma.user.findFirstOrThrow({
+    where: {
+      id: payload.id,
+      status: UserStatus.ACTIVE,
+    },
+  });
+
+  const isVakidToken = jwtHelpers.verifyToken(
+    token,
+    config.jwt.reset_pass_secret as Secret,
+  );
+  if (!isVakidToken) {
+    throw new Error("Invalid or expired token");
+  }
+  // hash the new password
+  const hashedPassword: string = await bcrypt.hash(payload.password, 12);
+
+  await prisma.user.update({
+    where: {
+      id: payload.id,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
 };
 
 export const AuthServices = {
@@ -138,4 +184,5 @@ export const AuthServices = {
   refreshToken,
   changePassword,
   forgotPassword,
+  resetPassword,
 };
