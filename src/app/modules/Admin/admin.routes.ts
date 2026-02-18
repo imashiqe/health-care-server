@@ -1,9 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 import { adminController } from "./admin.controller";
-import validateRequest from "../../app/routes/middleWares/validateRequest";
+
 import { adminValidationSchemas } from "./admin.validation";
-import auth from "../../app/routes/middleWares/auth";
+
 import { UserRole } from "@prisma/client";
+import auth from "../../middleWares/auth";
+import validateRequest from "../../middleWares/validateRequest";
 
 const router = express.Router();
 

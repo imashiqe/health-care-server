@@ -1,12 +1,18 @@
 import { Secret } from "jsonwebtoken";
-import config from "../../../config";
-import { jwtHelpers } from "../../../helpars/jwtHelpers";
+
 import { NextFunction, Request, Response } from "express";
-import ApiError from "../../errors/ApiError";
+
 import status from "http-status";
+import ApiError from "../errors/ApiError";
+import { jwtHelpers } from "../../helpars/jwtHelpers";
+import config from "../../config";
 
 const auth = (...roles: string[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (
+    req: Request & { user?: any },
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const token = req.headers.authorization;
       if (!token) {

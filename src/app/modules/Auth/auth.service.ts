@@ -1,11 +1,12 @@
 import { status } from "http-status";
 import * as bcrypt from "bcrypt";
 import prisma from "../shared/prisma";
-import { jwtHelpers } from "../../helpars/jwtHelpers";
+// import { jwtHelpers } from "../../helpars/jwtHelpers";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { is } from "zod/v4/locales";
 import { UserStatus } from "@prisma/client";
-import config from "../../config";
+import config from "../../../config";
+import { jwtHelpers } from "../../../helpars/jwtHelpers";
 
 const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findFirstOrThrow({
