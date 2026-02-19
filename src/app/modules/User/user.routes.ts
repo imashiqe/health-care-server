@@ -3,12 +3,16 @@ import { userController } from "./user.controller";
 
 import { UserRole } from "@prisma/client";
 import auth from "../../middleWares/auth";
+import multer from "multer";
+import path from "path";
+import { fileUploader } from "../../../helpars/fileUploader";
 
 const router = express.Router();
 
 router.post(
   "/",
   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+  fileUploader.upload.single("file"),
   userController.createAdmin,
 );
 
