@@ -4,6 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "path";
 // import { rejects } from "assert";
 import fs from "fs";
+import { ICloudinaryResponse, IFile } from "../app/routes/interfaces/file";
 // Configuration
 cloudinary.config({
   cloud_name: "dpuphecho",
@@ -24,12 +25,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const uploadToCloudinary = async (file: any) => {
+const uploadToCloudinary = async (
+  file: IFile,
+): Promise<ICloudinaryResponse | undefined> => {
+  console.log(file);
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       file.path,
-      { public_id: file.originalname },
-      function (error, result) {
+      // { public_id: file.originalname },
+      function (error: Error, result: ICloudinaryResponse) {
         fs.unlinkSync(file.path); // Delete the file from local storage after upload
         if (error) {
           console.error("Cloudinary Upload Error: ", error);
