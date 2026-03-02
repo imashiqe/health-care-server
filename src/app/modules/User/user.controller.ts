@@ -19,6 +19,25 @@ const createAdmin = async (req: Request, res: Response) => {
   }
 };
 
+const createDoctor = async (req: Request, res: Response) => {
+  //   console.log(req.body);
+
+  try {
+    const result = await userService.createDoctor(req);
+    res.status(201).json({
+      message: "Doctor created successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error creating doctor:", error);
+    res.status(500).json({
+      message: "Failed to create doctor",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
 export const userController = {
   createAdmin,
+  createDoctor,
 };
