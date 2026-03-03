@@ -1,43 +1,44 @@
 import { Request, Response } from "express";
 import { userService } from "./user.service";
+import catchAsync from "../shared/catchAsync";
 
-const createAdmin = async (req: Request, res: Response) => {
-  //   console.log(req.body);
+/* ================= ADMIN ================= */
 
-  try {
-    const result = await userService.createAdmin(req);
-    res.status(201).json({
-      message: "Admin created successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("Error creating admin:", error);
-    res.status(500).json({
-      message: "Failed to create admin",
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
-  }
-};
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.createAdmin(req);
 
-const createDoctor = async (req: Request, res: Response) => {
-  //   console.log(req.body);
+  res.status(201).json({
+    success: true,
+    message: "Admin created successfully",
+    data: result,
+  });
+});
 
-  try {
-    const result = await userService.createDoctor(req);
-    res.status(201).json({
-      message: "Doctor created successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("Error creating doctor:", error);
-    res.status(500).json({
-      message: "Failed to create doctor",
-      error: error instanceof Error ? error.message : "Unknown error",
-    });
-  }
-};
+/* ================= DOCTOR ================= */
+
+const createDoctor = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.createDoctor(req);
+
+  res.status(201).json({
+    success: true,
+    message: "Doctor created successfully",
+    data: result,
+  });
+});
+
+/* ================= PATIENT ================= */
+const createPatient = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.createPatient(req);
+
+  res.status(201).json({
+    success: true,
+    message: "Patient created successfully",
+    data: result,
+  });
+});
 
 export const userController = {
   createAdmin,
   createDoctor,
+  createPatient,
 };
