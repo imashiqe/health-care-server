@@ -26,6 +26,7 @@ const createAdmin = async (req: Request & { file?: IFile }) => {
     const user = await tx.user.create({
       data: {
         email: admin.email,
+
         password: hashedPassword,
         role: UserRole.ADMIN,
       },
